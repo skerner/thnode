@@ -14,9 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// RUN: %rewrite_cpp_file %s | tee %t.cpp | grep -v "// CHECK-" | FileCheck %s --check-prefix=CHECK-SOURCE
+// RUN: %rewrite_cpp_file %s | tee %t.cpp | %FileCheckSrc %s --check-prefix=CHECK-SOURCE
 // RUN: %clang++ %t.cpp -o %t.exe
-// RUN: (%t.exe 2>&1 || true) | tee %t.exe.out | FileCheck %s --check-prefix=CHECK-EXE
+// RUN: %t.exe 2>&1 | tee %t.exe.out | FileCheck %s --check-prefix=CHECK-EXE
 
 #include <assert.h>
 #include <inttypes.h>

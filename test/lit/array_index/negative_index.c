@@ -16,7 +16,7 @@ limitations under the License.
 
 // RUN: %rewrite_c_file %s -Wno-array-bounds | tee %t.c | %FileCheckSrc %s --check-prefix=CHECK-SOURCE
 // RUN: %clang -o %t.exe %t.c -Wno-array-bounds
-// RUN: (%t.exe 2>&1 || true) | tee %t.exe.out | FileCheck %s --check-prefix=CHECK-EXE
+// RUN: ! %t.exe 2>&1 | tee %t.exe.out | FileCheck %s --check-prefix=CHECK-EXE
 
 #include <stdio.h>
 #include <stdlib.h>

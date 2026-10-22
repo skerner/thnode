@@ -14,9 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// RUN: %rewrite_c_file %s | tee %t.c | grep -v CHECK- | FileCheck %s --check-prefix=CHECK-SOURCE
+// RUN: %rewrite_c_file %s | tee %t.c | %FileCheckSrc %s --check-prefix=CHECK-SOURCE
 // RUN: %clang -o %t.exe %t.c
-// RUN: (%t.exe 2>&1 || true) | tee %t.exe.out | FileCheck %s --check-prefix=CHECK-EXE
+// RUN: ! %t.exe 2>&1 | tee %t.exe.out | FileCheck %s --check-prefix=CHECK-EXE
 
 #include <assert.h>
 #include <stdio.h>
@@ -50,5 +50,6 @@ int main() {
   // CHECK-SOURCE: int i = *(NULL_CHECK( (((*(NULL_CHECK( ((os.isp)), inner_struct_t *) )).intp)), int *) );
   // CHECK-EXE: ERROR; Dereferencing NULLish pointer (nil) in expression (((*(NULL_CHECK( ((os.isp)), inner_struct_t *) )).intp)); at {{.*}}.c:[[#@LINE + 1]]
   int i = *((*(os.isp)).intp);
-  return i;
+
+  return 0;
 }

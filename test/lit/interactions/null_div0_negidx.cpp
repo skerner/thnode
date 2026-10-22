@@ -15,7 +15,7 @@ limitations under the License.
 */
 
 // RUN: %rewrite_cpp_file -fcxx-exceptions -fexceptions %s > %t.cpp
-// RUN: grep -v CHECK- %t.cpp | FileCheck %s --check-prefix=CHECK-SOURCE
+// RUN: cat %t.cpp | %FileCheckSrc %s --check-prefix=CHECK-SOURCE
 // RUN: %clang++ -o %t.exe %t.cpp
 // RUN: %t.exe 2>&1 | tee %t.exe.out | FileCheck %s --check-prefix=CHECK-EXE
 

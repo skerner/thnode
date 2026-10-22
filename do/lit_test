@@ -27,7 +27,9 @@ find . -name '*.inst.*' -print0 | xargs -0 rm -f
 # Run lit tests. LLVM bin dir is for FileCheck.
 
 # Limit to one failure so that logs show one failure at a time.
-# LIT_ARGS="--max-failures=1"
+# Run in a set order, so that the same tet failure is seen until it passes.
+# Use one thread so that logs don't show any other test output.
+LIT_ARGS="--max-failures=1 --order=lexical --threads=1"
 
 env PATH=$(llvm-config --bindir):$PATH \
   lit test/lit --verbose ${LIT_ARGS:-}

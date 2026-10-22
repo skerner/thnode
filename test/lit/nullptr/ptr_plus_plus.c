@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// RUN: %rewrite_c_file %s | tee %t.c | grep -v CHECK- | FileCheck %s --check-prefix=CHECK-SOURCE
+// RUN: %rewrite_c_file %s | tee %t.c | %FileCheckSrc %s --check-prefix=CHECK-SOURCE
 
 #include <stdlib.h>
 

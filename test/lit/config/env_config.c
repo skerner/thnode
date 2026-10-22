@@ -14,6 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// RUN: (env THNODE_CC=gcc THNODE_CONFIG='this is not valid!' %compiler_driver %s -o %t_inst.exe || true) |& %FileCheckSrc %s
+// RUN: ! env THNODE_CC=gcc THNODE_CONFIG='this is not valid!' %compiler_driver %s -o %t_inst.exe 2>&1 | %FileCheckSrc %s
 
 // CHECK: ERROR: safty-check plugin: Failed to parse config string: "this is not valid!"

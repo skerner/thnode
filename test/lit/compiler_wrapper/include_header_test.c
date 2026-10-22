@@ -14,9 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// RUN: (! env THNODE_CC=gcc THNODE_INCLUDE_HEADER="include/include_this_header.h" %compiler_driver %s -o %t_gcc.exe 2>&1 ) | grep -v CHECK | FileCheck %s --check-prefix=CHECK-ERROR-RELATIVE-PATH
-// RUN: (! env THNODE_CC=gcc THNODE_INCLUDE_HEADER="/this/file/does/not/exist.h" %compiler_driver %s -o %t_gcc.exe 2>&1 ) | grep -v CHECK | FileCheck %s --check-prefix=CHECK-ERROR-INCLUDE-NOT-FOUND
-// RUN: (! env THNODE_CC=gcc THNODE_INCLUDE_HEADER="/" %compiler_driver %s -o %t_gcc.exe 2>&1 ) | grep -v CHECK | FileCheck %s --check-prefix=CHECK-ERROR-INCLUDE-IS-NOT-A-FILE
+// RUN: ! env THNODE_CC=gcc THNODE_INCLUDE_HEADER="include/include_this_header.h" %compiler_driver %s -o %t_gcc.exe 2>&1 | %FileCheckSrc %s --check-prefix=CHECK-ERROR-RELATIVE-PATH
+// RUN: ! env THNODE_CC=gcc THNODE_INCLUDE_HEADER="/this/file/does/not/exist.h" %compiler_driver %s -o %t_gcc.exe 2>&1 | %FileCheckSrc %s --check-prefix=CHECK-ERROR-INCLUDE-NOT-FOUND
+// RUN: ! env THNODE_CC=gcc THNODE_INCLUDE_HEADER="/" %compiler_driver %s -o %t_gcc.exe 2>&1 | %FileCheckSrc %s --check-prefix=CHECK-ERROR-INCLUDE-IS-NOT-A-FILE
 // RUN: env THNODE_DEBUG_LEVEL=10 THNODE_CC=gcc THNODE_INCLUDE_HEADER=%test_root_dir/compiler_wrapper/include/include_this_header.h %compiler_driver %s -o %t_gcc.exe
 // RUN: %t_gcc.exe | FileCheck %s --check-prefix=CHECK-INCLUDE-ADDED
 
