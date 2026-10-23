@@ -57,9 +57,9 @@ public:
   ~LogHelper() { std::cerr << std::endl; }
 };
 
-// Used by macro FATAL to end the final log line and terminate the program.
-// Older versioons of gcc don't honor [[noreturn]] on a destructor.
-// It works on operator=.
+// Used by the macro FATAL to end the fatal log line and terminate the program.
+// Older versions of GCC don't honor [[noreturn]] on a destructor.
+// Use operator= as a workaround.
 struct FatalAndExit {
   [[noreturn]] FatalAndExit &operator=(const LogHelper &) {
     std::cerr << std::endl;
