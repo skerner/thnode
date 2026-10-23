@@ -34,10 +34,10 @@ static int getIntFromEnvVar(const char *EnvVar, int DefaultIfUnset = 0,
   char *Endptr;
   long Result = strtol(Value, &Endptr, 10);
   if (*Endptr != '\0') {
-    exit(1);
+    return DefaultIfSet; // String is not a number.
   }
   if (Result < INT_MIN || Result > INT_MAX) {
-    exit(1);
+    return DefaultIfSet;
   }
   return static_cast<int>(Result);
 }
@@ -57,8 +57,7 @@ static int deduceDebugLevel() {
 
   // Check if value is empty.
   if (*Value == '\0') {
-    fprintf(stderr, "ERROR: THNODE_DEBUG_LEVEL is set but has no value\n");
-    exit(1);
+    FATAL << "THNODE_DEBUG_LEVEL is set but has no value.";
   }
 
   // Parse as integer
@@ -66,16 +65,14 @@ static int deduceDebugLevel() {
   long Result = strtol(Value, &Endptr, 10);
   // Check if parsing failed or there are extra characters.
   if (*Endptr != '\0') {
-    fprintf(stderr, "ERROR: THNODE_DEBUG_LEVEL='%s' is not a valid integer\n",
-            Value);
-    exit(1);
+    FATAL << "THNODE_DEBUG_LEVEL value '" << Value
+          << "' is not a valid integer.";
   }
 
   // Check for overflow/underflow
   if (Result < 0 || Result > INT_MAX) {
-    fprintf(stderr, "ERROR: THNODE_DEBUG_LEVEL='%s' is out of range (0-%d)\n",
-            Value, INT_MAX);
-    exit(1);
+    FATAL << "THNODE_DEBUG_LEVEL='" << Value << "' is out of range [0-"
+          << INT_MAX << "]";
   }
 
   return static_cast<int>(Result);

@@ -30,9 +30,8 @@ static string deduceCompilerPluginPath() {
     return std::string(ThnodePluginPath);
   }
 
-  std::cerr << "failed to determine the compiler plugin path; set env "
-               "THNODE_PLUGIN_PATH.";
-  exit(1);
+  FATAL << "failed to determine the compiler plugin path; set env var "
+           "THNODE_PLUGIN_PATH.";
 }
 
 static const vector<string> &deduceCompilerPluginIncludeFlags() {

@@ -20,6 +20,8 @@ limitations under the License.
 #include <string>
 #include <vector>
 
+#include "logging.h"
+
 using std::filesystem::path;
 
 namespace path_util {
@@ -68,9 +70,8 @@ void mkdirs(path Mapped) {
   std::error_code Ec;
   if (!std::filesystem::exists(Mapped)) {
     if (!std::filesystem::create_directories(Mapped, Ec)) {
-      std::cerr << "ERROR: Failed to create directories for path: " << Mapped
-                << " (" << Ec.message() << ")" << std::endl;
-      exit(1);
+      FATAL << "ERROR: Failed to create directories for path: " << Mapped
+            << " (" << Ec.message() << ")" << std::endl;
     }
   }
 }

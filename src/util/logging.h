@@ -33,9 +33,10 @@ std::string rfcTimestamp();
                        << __LINE__ << " "
 
 #define FATAL                                                                  \
-  logging::FatalHelper() << logging::rfcTimestamp() << " " __FILE__ << ":"     \
-                         << __LINE__ << " "                                    \
-                         << " FATAL: "
+  logging::FatalAndExit() = logging::LogHelper()                               \
+                            << logging::rfcTimestamp() << " " __FILE__ << ":"  \
+                            << __LINE__ << " "                                 \
+                            << " FATAL: "
 
 namespace logging {
 
@@ -56,22 +57,14 @@ public:
   ~LogHelper() { std::cerr << std::endl; }
 };
 
-class FatalHelper {
-public:
-  template <typename T> FatalHelper &operator<<(const T &Val) {
-    std::cerr << Val;
-    return *this;
-  }
-
-  // Specialization for std::endl
-  FatalHelper &operator<<(std::ostream &(*Manip)(std::ostream &)) {
-    Manip(std::cerr);
-    return *this;
-  }
-
-  ~FatalHelper() {
+// Used by macro FATAL to end the final log line and terminate the program.
+// Older versioons of gcc don't honor [[noreturn]] on a destructor.
+// It works on operator=.
+struct FatalAndExit {
+  [[noreturn]] FatalAndExit &operator=(const LogHelper &) {
     std::cerr << std::endl;
     std::exit(1);
   }
 };
+
 } // namespace logging

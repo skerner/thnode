@@ -70,9 +70,8 @@ std::string deduceCompilerToCall(const char *Argv0) {
   LOG(1) << "exe name is " << ExeName;
   // TODO: act on the name by returning the equivalent compiler.
 
-  std::cerr << "failed to determine the compiler to be called; set env "
-               "THONDE_CC or name the binary something compilerish.";
-  exit(1);
+  FATAL << "failed to determine the compiler to be called; set env var "
+           "THONDE_CC or name the binary something compilerish.";
 }
 
 int exec(const string &Cmd) {
